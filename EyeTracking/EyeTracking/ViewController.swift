@@ -101,6 +101,13 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         // 자동으로 SCNLight 생성 여부를 결정
         sceneView.automaticallyUpdatesLighting = true
         
+        // eyeball setting
+        leftEyeBallView.layer.cornerRadius = 3
+        leftEyeBallView.layer.masksToBounds = true
+        
+        rightEyeBallView.layer.cornerRadius = 3
+        rightEyeBallView.layer.masksToBounds = true
+        
         // Setup SceneGraph (SCNNode 의 순서를 결정)
         /// rootNode -> faceNode -> leftEyeNode -> targetLeftEyeNode
         ///                      -> rightEyeNode -> targetRightEyeNode
