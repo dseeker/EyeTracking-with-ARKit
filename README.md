@@ -204,7 +204,7 @@ func hitTestWithSegment(from pointA: SCNVector3,
 
 - `anchor.blendShapes` 의 양쪽 눈의 값을 출력한 값이다. 눈을 감게 되면 1에 가까운 값이, 뜨게 되면 0 에 가까운 값이 나오게된다. 이를 의미 있는 범위로 적절하게 제어를 해야한다. 
 
-1. 눈을 감는것이 감지가 될때 targetingView를 고정 시키는 작업 필요
+1. 눈을 감는것이 감지가 될때 targetingView를 고정 시키는 작업 필요(해결) : blinking 시 `setUpTargetPosition` callBack 메서드의 호출을 하지 않게 일시적으로 설정
 2. 1 이 완료가 되면 눈을 감았을때 터치가 되게 적용 
 3. 사용자는 눈을 감고 떳을 때 터치가 되게 수행을 해야한다.
 
