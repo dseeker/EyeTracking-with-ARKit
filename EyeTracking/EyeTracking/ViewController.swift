@@ -15,12 +15,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
     // MARK: - IBOutlet
     
     @IBOutlet var sceneView: ARSCNView!
-    @IBOutlet var imageView: UIImageView!
-    @IBOutlet var faceView: UIView!
     @IBOutlet var leftEyeView: UIView!
     @IBOutlet var rightEyeView: UIView!
-    @IBOutlet var leftEyeBallView: UIView!
-    @IBOutlet var rightEyeBallView: UIView!
     @IBOutlet weak var eyePositionIndicatorView: UIView!
     @IBOutlet weak var eyeTrackingPositionView: UIView!
     @IBOutlet weak var eyeTargetPositionX: UILabel!
@@ -31,9 +27,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
     var faceNode: SCNNode = SCNNode()
     
     // 실제 iPad pro 11인치 의 물리적 크기 17.85 cm x 24.76cm
-    let padScreenSize = CGSize(width: 0.0774, height: 0.1575)
+    let padScreenSize = CGSize(width: 0.1785, height: 0.2476)
     // 실제 iPhoneX의 Point Size 1194×834 points
-    let padScreenPointSize = CGSize(width: 1242/3, height: 2688/3)
+    let padScreenPointSize = CGSize(width: 1668/3, height: 2388/3)
     
     // 두 시력이 Hitting 되는 즉 스크린에 시선이 향하는 곳의 위치 좌표를 저장 할 배열
     var eyeLookAtPositionXs: [CGFloat] = []
@@ -101,12 +97,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         // 자동으로 SCNLight 생성 여부를 결정
         sceneView.automaticallyUpdatesLighting = true
         
-        // eyeball setting
-        leftEyeBallView.layer.cornerRadius = 3
-        leftEyeBallView.layer.masksToBounds = true
-        
-        rightEyeBallView.layer.cornerRadius = 3
-        rightEyeBallView.layer.masksToBounds = true
         
         // Setup SceneGraph (SCNNode 의 순서를 결정)
         /// rootNode -> faceNode -> leftEyeNode -> targetLeftEyeNode
@@ -188,9 +178,24 @@ extension ViewController {
                 
                 rightEyeHittingAt.y = CGFloat(result.localCoordinates.y) / (self.padScreenSize.height / 2) * self.padScreenPointSize.height + heightCompensation
             }
+            let eyeBlinkValue = anchor.blendShapes[.eyeBlinkLeft]?.floatValue ?? 0.0
+            
+            if eyeBlinkValue > 0.8 {
+                 print("Close")
+            } else {
+                self.setUpTargetPosition(left: leftEyeHittingAt, right: rightEyeHittingAt)
+            }
             
             
-            self.setUpTargetPosition(left: leftEyeHittingAt, right: rightEyeHittingAt)
+            
+            // 감으면 1, 떠있으면 0 에 가깝다 값이 완벽하게 이
+           
+//            if eyeBlinkValue > 0 {
+//                print("Open Left")
+//            } else {
+//                print("Close Left")
+//            }
+
             
         }
         
@@ -242,27 +247,7 @@ extension ViewController {
         } else {
             self.eyeTargetPsoitionY.text = "\(y)"
         }
-        
-        // 두 눈의 좌표 값이 모나리자의 얼굴 영역에 있는지 판별 하는
-        let point = CGPoint(x: x, y: y)
-        if faceView.frame.contains(point) {
-            print("포함")
-        } else {
-            
-            let ratioValue = view.frame.height / leftEyeView.frame.height
-            
-            if smoothEyeLookAtPositionX! / ratioValue < leftEyeView.frame.maxX && smoothEyeLookAtPositionY! / ratioValue < leftEyeView.frame.maxY {
-                 let leftTransform = CGAffineTransform(translationX: smoothEyeLookAtPositionX! / ratioValue , y: smoothEyeLookAtPositionY! / ratioValue)
-                self.leftEyeBallView.transform = leftTransform
-            }
-            
-            if smoothEyeLookAtPositionX! / ratioValue < rightEyeView.frame.maxX && smoothEyeLookAtPositionY! / ratioValue < rightEyeView.frame.maxY {
-                let leftTransform = CGAffineTransform(translationX: smoothEyeLookAtPositionX! / ratioValue , y: smoothEyeLookAtPositionY! / ratioValue)
-                self.rightEyeBallView.transform = leftTransform
-            }
-            
-           
-        }
+
         
     }
     
