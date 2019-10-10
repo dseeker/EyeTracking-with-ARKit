@@ -200,6 +200,13 @@ func hitTestWithSegment(from pointA: SCNVector3,
 - 양쪽의 `eyeBlinkValue` 값이 1이 될 경우에 두 눈이 감긴 것이고, 이때 UI제어가 이루어 져야한다.
 - `eyeBlinkValue`값의 변화가 발생할때 해당 `targetingView`의 움직임을 막아야 한다. 그렇게 해야 눈을 때 `targetingView`가 아래로 내려가버리는 상황이 일어나지 않는다.
 
+<img width="485" alt="image" src="https://user-images.githubusercontent.com/33486820/66584053-6195d100-ebbf-11e9-9bdc-ad5a42e4c959.png">
+
+- `anchor.blendShapes` 의 양쪽 눈의 값을 출력한 값이다. 눈을 감게 되면 1에 가까운 값이, 뜨게 되면 0 에 가까운 값이 나오게된다. 이를 의미 있는 범위로 적절하게 제어를 해야한다. 
+
+1. 눈을 감는것이 감지가 될때 targetingView를 고정 시키는 작업 필요
+2. 1 이 완료가 되면 눈을 감았을때 터치가 되게 적용 
+3. 사용자는 눈을 감고 떳을 때 터치가 되게 수행을 해야한다.
 
 <hr>
 </br>
