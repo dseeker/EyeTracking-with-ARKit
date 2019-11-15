@@ -242,3 +242,5 @@ func hitTestWithSegment(from pointA: SCNVector3,
 - [Apple Developer: ARFaceAnchor](https://developer.apple.com/documentation/arkit/arfaceanchor)
 내용을 참고하여 작성하였습니다.
 
+[![HitCount](http://hits.dwyl.io/gaki2745/EyeTracking-with-ARKit.svg)](http://hits.dwyl.io/gaki2745/EyeTracking-with-ARKit)
+
